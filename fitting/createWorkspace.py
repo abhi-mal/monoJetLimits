@@ -276,6 +276,7 @@ class ConnectedBinList(BinList):
         if self.tfname not in self.nuismap: return
         nuismap = self.nuismap[self.tfname]
         for nuisance in nuismap:
+            if self.year == "2016" and "PSW" in nuisance: continue
             if not fromSys: self.addSyst(nuisance,correlation=self.correlations[nuisance])
             else: self.addFromSys(nuisance,correlation=self.correlations[nuisance])
     def addSysShape(self,up,dn,reciprocal=True):
@@ -363,6 +364,7 @@ class Template:
         if not self.sysdir.Get(self.procname):
             # If process cant be found, assume zero yield
             self.obs= self.sysdir.Get("data_obs").Clone("%s_%s"%(self.procname,self.sysdir.GetTitle()))
+            #self.obs= self.sysdir.Get("signal_data").Clone("%s_%s"%(self.procname,self.sysdir.GetTitle()))
             self.obs.Reset()
         else:
             self.obs = self.sysdir.Get(self.procname).Clone("%s_%s"%(self.procname,self.sysdir.GetTitle()))
@@ -404,7 +406,8 @@ class Channel:
         self.sysdir.keylist = [ key.GetName() for key in self.sysdir.GetListOfKeys() ]
         # self.sysdir.cd()
 
-        self.data = Template('data_obs',self.sysdir,self.syscat.varlist)
+        # self.data = Template('data_obs',self.sysdir,self.syscat.varlist)
+        self.data = Template('%s_data'%self.sysdir,self.sysdir,self.syscat.varlist)
         self.bkgmap = {}
         for bkg in list(self.bkglist):
             self.bkgmap[bkg] = Template(bkg,self.sysdir,self.syscat.varlist)
@@ -444,6 +447,7 @@ class Workspace(RooWorkspace):
         syscat.zm = Channel(syscat,'zm',tf_proc={"DYJets":"ZJets",id:"zm_to_sr"},tf_channel=syscat.sr)
         syscat.zm.Export(self)
     def GammaCR(self,syscat):
+        if syscat.year == "2016": return
         syscat.ga = Channel(syscat,'ga',tf_proc={"GJets":"ZJets",id:"ga_to_sr"},tf_channel=syscat.sr)
         syscat.ga.Export(self)
     def MetaData(self,syscat):
@@ -460,7 +464,26 @@ def createWorkspace(syscat,outfname='workspace.root',isScaled=True):
     output = TFile(outfname,"recreate")
     ws = Workspace("w","w")
 
-    ws.SignalRegion(syscat,parser.args.signal)
+    # ws.SignalRegion(syscat,parser.args.signal)
+
+    my_mass_map = {
+                               #"Mchi":"Mphi"
+                '10': ['10000', '100', '50', '15', '10'],
+                '500': ['10000', '10', '995', '500'],
+                '1000': ['10', '1000'],
+                '50': ['10', '50', '10000', '300', '200', '95'],
+                '150': ['1000', '200', '295', '500', '10000', '10'],
+                '1': ['10', '50', '20', '200', '100', '10000', '1000']}
+    signals = []
+    for my_Mchi,my_Mphi in my_mass_map.iteritems():
+        for Mphi_point in range(len(my_Mphi)):
+              name_string = 'zprime_Mchi%s_Mphi%s'%(my_Mchi,my_Mphi[Mphi_point])
+              signals.append(name_string)
+    #signals = ['axial']
+    #signals = ['axial_Mchi1_Mphi100']
+    #signals = ["ggh","vbf","wh","zh"]
+    # signals = ["zprime"]
+    ws.SignalRegion(syscat,signals)
     ws.SingleEleCR(syscat)
     ws.SingleMuCR(syscat)
     ws.DoubleEleCR(syscat)

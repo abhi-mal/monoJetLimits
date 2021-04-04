@@ -31,6 +31,17 @@ datadriven=['ZJets','WJets','DYJets','GJets']
 signalmap = { }
 
 frozen_params = set()
+signal = []
+#for my_Mchi,my_Mphi in my_mass_map.iteritems():
+#    for Mphi_point in range(len(my_Mphi)):
+#        name_string = 'axial_Mchi%s_Mphi%s'%(my_Mchi,my_Mphi[Mphi_point])
+#        signal.append(name_string)
+#print signal
+#signal = ['axial']
+signal = ["zprime_Mchi1_Mphi100"]
+#signal = ["ggh","vbf","wh","zh"]
+# signal = ["zprime"]
+signalmap = { re.compile(sig):sig for sig in signal }
 
 def loop_iterator(iterator):
   object = iterator.Next()
@@ -132,6 +143,7 @@ def createDatacards(wsfname,year):
       os.remove(datacard)
 
   chlist = list(parser.args.include)
+  if year == "2016": chlist.remove("ga")
   for ch in parser.args.remove:
     if ch in chlist: chlist.remove(ch)
   chlist.sort(channel_order)
@@ -139,7 +151,7 @@ def createDatacards(wsfname,year):
   signalmap.update( {re.compile(signal):signal for signal in parser.args.signal} )
 
   for ch in chlist:
-    siglist = [] if ch != "sr" else parser.args.signal
+    siglist = [] if ch != "sr" else ["zprime_Mchi1_Mphi100"]#parser.args.signal
     MakeCard(ws,"%s_%s"%(ch,year),cardmap[ch],signal=siglist)
 
   if any(frozen_params):
