@@ -1,16 +1,30 @@
 from ROOT import *
 
 colormap = {
+#    '1':kRed,
+#    '10':kAzure+10,
+#    '40':kViolet,
+#    '100':kBlack,
+#    '150':kOrange-2,
+#    '200':kGray,
+#    '300':kSpring,
+#    '400':kYellow,
+#    '500':kGreen,
+#    '600':kBlue
     '1':kRed,
-    '10':kAzure+10,
-    '40':kViolet,
-    '100':kBlack,
-    '150':kOrange-2,
-    '200':kGray,
-    '300':kSpring,
-    '400':kYellow,
-    '500':kGreen,
-    '600':kBlue
+    '4':kAzure+10,
+    '6':kViolet,
+    '20':kBlack,
+    '22':kOrange-2,
+    '28':kGray,
+    '40':kSpring,
+    '45':kYellow,
+    '50':kGreen,
+    '55':kGreen+10,
+    '150':kGreen+20,
+    '200':kBlue,
+    '225':kBlue+10,
+    '275':kBlue+20
 }
 def getLegend(xmin=0.55,ymin=0.5,xmax=0.9,ymax=0.887173):
     leg = TLegend(xmin,ymin,xmax,ymax,"")

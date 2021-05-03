@@ -5,3 +5,4 @@ from .utilities import *
 from .SysInfo import *
 from .FitFile import *
 from central_signal import *
+from .interpolation import *

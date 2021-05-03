@@ -13,7 +13,11 @@ for tfile,cat in zip(args.files,args.categories):
     args.output.cd()
     tdir = args.output.mkdir(cat)
     tdir.cd()
-    for key in tfile.GetListOfKeys(): tfile.Get(key.GetName()).Write()
+    for key in tfile.GetListOfKeys(): 
+                     hist_to_write = tfile.Get(key.GetName())
+                     hist_name = key.GetName()
+                     hist_to_write.SetName(hist_name)
+                     hist_to_write.Write()
     tdir.Write()
 args.output.Close()
 

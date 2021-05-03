@@ -106,6 +106,7 @@ def drawPlot1D(data):
             bounds.setBounds(float(x),float(y))
 
     minX,maxX,minY,maxY = bounds.getBounds()
+    print(bounds)
     ######################################################################
     c = TCanvas("c","c",800,800)
     c.SetLogy()
@@ -124,9 +125,9 @@ def drawPlot1D(data):
         limit.SetLineWidth(3)
         legend.AddEntry(limit,'m_{#chi} = '+mx+' GeV','l')
         limits.Add(limit)
-    limits.Draw('a l')
+    limits.Draw('a l * PMC')
     limits.GetXaxis().SetRangeUser(minX,maxX)
-    limits.GetYaxis().SetRangeUser(10**-3.5,10**5.5)
+    limits.GetYaxis().SetRangeUser(10**-1,10**2) #SetRangeUser(10**-3.5,10**5.5)
     limits.GetXaxis().SetTitle("m_{med} (GeV)")
     limits.GetYaxis().SetTitle("95% CL limit on #sigma/#sigma_{theor}")
     limits.GetXaxis().SetTitleSize(0.04)

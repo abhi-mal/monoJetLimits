@@ -3,7 +3,7 @@ from ROOT import *
 gSystem.Load("libHiggsAnalysisCombinedLimit.so")
 
 dirmap = {"sr":"signal","ze":"Zee","zm":"Zmm","we":"Wen","wm":"Wmn","ga":"gjets"}
-procmap = {"data":"data_obs","zjets":"ZJets","wjets":"WJets","zll":"DYJets","gjets":"GJets","top":"TTJets","diboson":"DiBoson","qcd":"QCD","axial":"axial","ggh":"ggh","vbf":"vbf","wh":"wh","zh":"zh","zprime":"zprime"}
+procmap = {"data":"data_obs","ZJets":"ZJets","WJets":"WJets","DYJets":"DYJets","GJets":"GJets","TTJets":"TTJets","DiBoson":"DiBoson","QCD":"QCD","axial":"axial","ggh":"ggh","vbf":"vbf","wh":"wh","zh":"zh","zprime":"zprime","dmsimp_scalar":"dmsimp_scalar"}
 
 yearlist = ["2016","2017","2018"]
 lumimap = {"2016":35900,"2017":41486,"2018":59699}
@@ -20,15 +20,20 @@ class SysRegion(TDirectoryFile):
         self.year = syscat.year
         self.lumi = lumimap[self.year]
         for key in syscat.tdir.GetListOfKeys():
-            if "axial" in key.GetName():
+            if "dmsimp_scalar" in key.GetName(): #if "axial" in key.GetName():
                #r,p = "signal","axial"
                r,p = "signal",key.GetName().replace("signal_","")
             else :
-               r,p = key.GetName().split("_")
+               #r,p = key.GetName().split("_")
+                r = key.GetName().split("_")[0]
+                p = key.GetName().replace(r+"_","")
             if dirmap[region] != r: continue
             if p == "sumofbkg": continue
-            if "axial" in p :  procname = p
-            else :             procname = procmap[p]
+#            if "axial" in p :  procname = p
+            if "data" in p : procname = procmap[p]
+            else:            procname = p
+#            if "dmsimp_scalar" in p :  procname = p
+#            else :             procname = procmap[p]
             process = syscat.tdir.Get(key.GetName()).Clone(procname)
             self.Add(process)
 class SysCat:
@@ -44,19 +49,39 @@ class SysCat:
         return self.sysregion
     def GetName(self): return "%s_%s.sys.root" % (self.var.GetTitle(),self.year)
     def getSignalList(self): 
-            signal_mass_map =  {
-                               #"Mchi":"Mphi"
-                               "1":["100","300","500","750","1000","1500","1750","2000","2250"],
-                               "10":["1750","2000"],
-                               "40":["100"],
-                               "100":["300","1750","2000"],
-                               "150":["500","1750","2000","2250"],
-                               "200":["100","500","1750","2000"],
-                               "300":["300","500","750","1000","1500","1750","2000","2250"],
-                               "400":["300","2000","2250"],
-                               "500":["500","1750"],
-                               "600":["750","1000","1500"]
-                               }
+#axial 
+#            signal_mass_map =  {
+#                               #"Mchi":"Mphi"
+#                               "1":["100","300","500","750","1000","1500","1750","2000","2250"],
+#                               "10":["1750","2000"],
+#                               "40":["100"],
+#                               "100":["300","1750","2000"],
+#                               "150":["500","1750","2000","2250"],
+#                               "200":["100","500","1750","2000"],
+#                               "300":["300","500","750","1000","1500","1750","2000","2250"],
+#                               "400":["300","2000","2250"],
+#                               "500":["500","1750"],
+#                               "600":["750","1000","1500"]
+#           }
+
+#dmsimp_scalar
+            signal_mass_map ={
+                              #"Mchi":"Mphi"
+    			       '1':['10','50','100','200','300','350','400','450','500','600','700','800'],
+		               '4':['10'],
+			       '6':['10'],
+			       '20':['50'],
+			       '22':['50'],
+			       '28':['50'],
+			       '40':['100'],
+			       '45':['100'],
+			       '50':['500'],
+			       '55':['100'],
+			       '150':['500'],
+			       '200':['500'],
+			       '225':['500'],
+			       '275':['500']
+	    }
             return signal_mass_map
 
 

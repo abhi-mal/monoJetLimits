@@ -20,10 +20,10 @@ def runMphidir(mx,mvdir,procmap=None):
     mv = mvdir.replace('Mphi_','').replace('/','')
     cwd = os.getcwd()
     os.chdir(mvdir)
-    combine = ['combine','-M','AsymptoticLimits','-n','Mchi%sMphi%s' % (mx,mv),'-m',mv,'workspace_Mphi%s.root' % mv]
+    combine = ['combine','-M','AsymptoticLimits','--strictBounds','-n','Mchi%sMphi%s' % (mx,mv),'-m',mv,'workspace_Mphi%s.root' % mv]# by default the range of r is [0,20] and using "--strictBounds" tells combine to Take --rMax as a strict upper bound
     if procmap is None:
         print os.getcwd()
-        proc = cPopen(combine); proc.wait()
+        proc = cPopen(combine); proc.wait()#proc.communicate()#proc.wait()
     else:
         proc = cPopen(combine,stdout=open('log','w'))
         procmap[os.getcwd()] = proc
@@ -58,7 +58,7 @@ def collectMchidir(mxdir,procmap=None):
     args += ['-o',output]
     if procmap is None:
         print cwd
-        proc = cPopen(args); proc.wait()
+        proc = cPopen(args); proc.wait()#proc.communicate()#proc.wait()
     else:
         proc = cPopen(args,stdout=PIPE,stderr=STDOUT)
         procmap[os.getcwd()] = proc
