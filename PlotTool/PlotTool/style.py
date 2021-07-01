@@ -1,6 +1,7 @@
 from ROOT import *
 
 colormap = {
+#Axial
 #    '1':kRed,
 #    '10':kAzure+10,
 #    '40':kViolet,
@@ -11,20 +12,59 @@ colormap = {
 #    '400':kYellow,
 #    '500':kGreen,
 #    '600':kBlue
+#dmsimp: scalar and pseudoscalar
+#    '1':kRed,
+#    '4':kAzure+10,
+#    '6':kViolet,
+#    '20':kBlack,
+#    '22':kOrange-2,
+#    '28':kGray,
+#    '40':kSpring,
+#    '45':kYellow,
+#    '50':kGreen,
+#    '55':kGreen+10,
+#    '150':kGreen+20,
+#    '200':kBlue,
+#    '225':kBlue+10,
+#    '275':kBlue+20
+#dmsimp: tchannel_sum
     '1':kRed,
-    '4':kAzure+10,
-    '6':kViolet,
-    '20':kBlack,
-    '22':kOrange-2,
-    '28':kGray,
-    '40':kSpring,
-    '45':kYellow,
-    '50':kGreen,
-    '55':kGreen+10,
-    '150':kGreen+20,
-    '200':kBlue,
-    '225':kBlue+10,
-    '275':kBlue+20
+    '200':kAzure+10,
+    '350':kViolet,
+    '400':kBlack,
+    '500':kOrange-2,
+    '550':kGray,
+    '600':kSpring,
+    '650':kYellow,
+    '700':kGreen,
+    '750':kGreen+10,
+    '800':kBlue,
+    '900':kBlue+10
+#ADD
+#    '2':kGreen,
+#    '3':kRed,
+#    '4':kBlue,
+#    '5':kAzure+10,
+#    '6':kViolet,
+#    '7':kBlack,
+#    '8':kOrange-2,
+#    '9':kGray,
+#    '10':kSpring,
+#    '11':kYellow,
+#    '12':kGreen,
+#    '13':kGreen+10,
+#    '14':kBlue,
+#    '15':kBlue+10
+#leptoquark
+#    '500':kRed,
+#    '750':kAzure+10,
+#    '1000':kViolet,
+#    '1250':kBlack,
+#    '1500':kOrange-2,
+#    '1750':kGray,
+#    '2000':kSpring,
+#    '2250':kYellow,
+#    '2500':kGreen
 }
 def getLegend(xmin=0.55,ymin=0.5,xmax=0.9,ymax=0.887173):
     leg = TLegend(xmin,ymin,xmax,ymax,"")

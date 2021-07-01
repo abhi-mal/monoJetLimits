@@ -15,7 +15,13 @@ for tfile,cat in zip(args.files,args.categories):
     tdir.cd()
     for key in tfile.GetListOfKeys(): 
                      hist_to_write = tfile.Get(key.GetName())
-                     hist_name = key.GetName()
+                     hist_name = key.GetName().replace("QCDFake","QCD").replace("pseudoscalar","pscalar").replace("leptoquark","LQ")
+                     # to make 0p05 etc in leptoquark case into float like 0.05
+                     if "Ylq" in hist_name : 
+                     	char_list = hist_name.split('_')
+                        for i, my_str in enumerate(char_list):
+                             if 'Ylq' in my_str : char_list[i] = my_str.replace('p','.')
+                        hist_name = '_'.join(char_list)
                      hist_to_write.SetName(hist_name)
                      hist_to_write.Write()
     tdir.Write()

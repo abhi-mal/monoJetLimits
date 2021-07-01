@@ -64,8 +64,12 @@ def makeMchiDir(mx,mvlist,yearlist,options,procmap=None):
     combine_cards = ['combineCards.py']
     for region in regions: combine_cards.append('%s=../datacard_%s' % (region,region))
     combine_cards += ['>','datacard']
-    replace_mx = ['sed','-i',"'s/Mchi1/Mchi%s/g'" % mx,'datacard']
-    replace_mv = ['sed','-i',"'s/Mphi100/Mphi$MASS/g'",'datacard']
+    #replace_mx = ['sed','-i',"'s/_Mlq500/_Mlq%s/g'" % mx,'datacard'] #leptoquark
+    #replace_mx = ['sed','-i',"'s/_d7/_d%s/g'" % mx,'datacard'] # ADD
+    replace_mx = ['sed','-i',"'s/Mchi1/Mchi%s/g'" % mx,'datacard']# dmsimp
+    #replace_mv = ['sed','-i',"'s/_Ylq0.01/_Ylq$MASS/g'",'datacard'] #leptoquark
+    #replace_mv = ['sed','-i',"'s/_MD4/_MD$MASS/g'",'datacard'] # ADD
+    replace_mv = ['sed','-i',"'s/Mphi100/Mphi$MASS/g'",'datacard']# dmsimp
     with open('make_datacard.sh','w') as f:
         f.write('#!/bin/sh\n')
         f.write(' '.join(combine_cards)+'\n')

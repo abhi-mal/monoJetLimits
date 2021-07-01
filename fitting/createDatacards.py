@@ -7,46 +7,15 @@ import re
 import os
 
 datadriven=['ZJets','WJets','DYJets','GJets']
-# axial
-#my_mass_map = {
-#"1":["100","300","500","750","1000","1500","1750","2000","2250"],
-#"10":["1750","2000"],
-#"40":["100"],
-#"100":["300","1750","2000"],
-#"150":["500","1750","2000","2250"],
-#"200":["100","500","1750","2000"],
-#"300":["300","500","750","1000","1500","1750","2000","2250"],
-#"400":["300","2000","2250"],
-#"500":["500","1750"],
-#"600":["750","1000","1500"]
-#    }
-
-# dmsimp_scalar
-my_mass_map ={
-    '1':['10','50','100','200','300','350','400','450','500','600','700','800'],
-    '4':['10'],
-    '6':['10'],
-    '20':['50'],
-    '22':['50'],
-    '28':['50'],
-    '40':['100'],
-    '45':['100'],
-    '50':['500'],
-    '55':['100'],
-    '150':['500'],
-    '200':['500'],
-    '225':['500'],
-    '275':['500']
-}
 signal = []
-#for my_Mchi,my_Mphi in my_mass_map.iteritems():
-#    for Mphi_point in range(len(my_Mphi)):
-#        name_string = 'axial_Mchi%s_Mphi%s'%(my_Mchi,my_Mphi[Mphi_point])
-#        signal.append(name_string)
 #print signal
 #signal = ['axial']
 #signal = ["axial_Mchi1_Mphi100"]
-signal = ["dmsimp_scalar_Mchi1_Mphi100"]
+#signal = ["dmsimp_scalar_Mchi1_Mphi100"]
+#signal = ["dmsimp_pscalar_Mchi1_Mphi100"]
+signal = ["dmsimp_t_Mchi1_Mphi100"]#["dmsimp_t_0or1_Mchi1_Mphi100"] #signal = ["dmsimp_t_2_Mchi1_Mphi100"]
+#signal = ["ADD_MD4_d7"]
+#signal = ["LQ_Mlq500_Ylq0.01"]
 #signal = ["ggh","vbf","wh","zh"]
 # signal = ["zprime"]
 signalmap = { re.compile(sig):sig for sig in signal }

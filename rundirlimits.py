@@ -23,7 +23,7 @@ def runMphidir(mx,mvdir,procmap=None):
     combine = ['combine','-M','AsymptoticLimits','--strictBounds','-n','Mchi%sMphi%s' % (mx,mv),'-m',mv,'workspace_Mphi%s.root' % mv]# by default the range of r is [0,20] and using "--strictBounds" tells combine to Take --rMax as a strict upper bound
     if procmap is None:
         print os.getcwd()
-        proc = cPopen(combine); proc.wait()#proc.communicate()#proc.wait()
+        proc = cPopen(combine); proc.communicate()#proc.wait()
     else:
         proc = cPopen(combine,stdout=open('log','w'))
         procmap[os.getcwd()] = proc
@@ -33,6 +33,7 @@ def runMchidir(mxdir,procmap=None):
     mx = mxdir.replace('Mchi_','').replace('/','')
     cwd = os.getcwd()
     os.chdir(mxdir)
+    #mvdirs = [ dir for dir in os.listdir('.') if re.search(r'Mphi_\d+\.\d+$',dir) ] #leptoquark
     mvdirs = [ dir for dir in os.listdir('.') if re.search(r'Mphi_\d+$',dir) ]
     for mvdir in sorted(mvdirs): runMphidir(mx,mvdir,procmap)
     os.chdir(cwd)
@@ -50,6 +51,7 @@ def collectMchidir(mxdir,procmap=None):
     os.chdir(mxdir)
     output = 'zprimeMchi%s.json' % mx
     args = ['combineTool.py','-M','CollectLimits']
+    #mvdirs = [ dir for dir in os.listdir('.') if re.search(r'Mphi_\d+\.\d+$',dir) ] #leptoquark
     mvdirs = [ dir for dir in os.listdir('.') if re.search(r'Mphi_\d+$',dir) ]
     combine_output = '%s/higgsCombineMchi%sMphi%s.AsymptoticLimits.mH%s.root'
     for mvdir in mvdirs:
@@ -58,7 +60,7 @@ def collectMchidir(mxdir,procmap=None):
     args += ['-o',output]
     if procmap is None:
         print cwd
-        proc = cPopen(args); proc.wait()#proc.communicate()#proc.wait()
+        proc = cPopen(args); proc.communicate()#proc.wait()
     else:
         proc = cPopen(args,stdout=PIPE,stderr=STDOUT)
         procmap[os.getcwd()] = proc
@@ -117,7 +119,7 @@ def collectWorkspace(mxdirs,year,show=False):
         for mv in mxjson:
             mv_ws = {}
             lim = mxjson[mv]
-            mv = str(int(float(mv)))
+            mv = str((float(mv)))# mv = str(int(float(mv)))
             key = 'Mchi%s_Mphi%s' % (mx,mv)
             scale = scaling[key] if key in scaling else 1
             mv_ws['scale'] = scale
